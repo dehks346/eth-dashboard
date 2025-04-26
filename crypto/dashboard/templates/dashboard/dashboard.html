@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETH Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}"></head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+    <div class="dashboard">
+        <header class="dashboard-header">
+            <div class="logo">
+                <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.216-6.894m-1.216 6.894-5.907-1.042m5.907 1.042-.346 1.97"></path>
+                    <path d="M7.116 4.044c-4.924-.87-6.14 6.025-1.216 6.894m1.216-6.894 5.908 1.042m-5.908-1.042.347-1.97"></path>
+                </svg>
+                <h1>ETH TRACKER</h1>
+            </div>
+            <div class="wallet-info">
+                <div class="wallet-address">
+                    <span class="label">Wallet:</span>
+                    <span class="value">{{ wallet_address }}</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard-content">
+            <section class="overview-cards">
+                <div class="card balance-card">
+                    <div class="card-icon eth-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                            <path d="M12 6v12"></path>
+                            <path d="M16 10H8"></path>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h2>ETH Balance</h2>
+                        <div class="card-value">{{ eth_balance }}</div>
+                        <div class="card-subtitle">ETH</div>
+                    </div>
+                </div>
+
+                <div class="card value-card">
+                    <div class="card-icon wallet-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path>
+                            <path d="M4 14h16a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2z"></path>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h2>Wallet Value</h2>
+                        <div class="card-value">{{ wallet_value }}</div>
+                        <div class="card-subtitle">GBP</div>
+                    </div>
+                </div>
+
+                <div class="card price-card">
+                    <div class="card-icon price-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h2>ETH Price</h2>
+                        <div class="card-value">£<span id="live-eth-price">-</span></div>
+                        <div class="card-subtitle">@ <span id="live-eth-timestamp"></span></div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="dashboard-grid">
+                <section class="chart-section main-chart">
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h2>ETH Price (GBP)</h2>
+                            <div class="timeframe-selector" id="eth-timeframe-selector">
+                                <button data-timeframe="1h" class="active">1H</button>
+                                <button data-timeframe="24h">1D</button>
+                                <button data-timeframe="7d">1W</button>
+                                <button data-timeframe="all">All</button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="ethPriceChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="chart-section main-chart">
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h2>Wallet Value (GBP)</h2>
+                            <div class="timeframe-selector" id="wallet-timeframe-selector">
+                                <button data-timeframe="1h" class="active">1H</button>
+                                <button data-timeframe="24h">1D</button>
+                                <button data-timeframe="7d">1W</button>
+                                <button data-timeframe="all">All</button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="walletValueChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="trends-section">
+                    <div class="card">
+                        <h2>ETH Price Trends</h2>
+                        <ul class="trends-list">
+                            <li>
+                                <span class="trend-label">1hr:</span>
+                                <span class="trend-value" id="eth-hour-trend">Loading....</span>
+                            </li>
+                            <li>
+                                <span class="trend-label">1d:</span>
+                                <span class="trend-value" id="eth-day-trend">Loading....</span>
+                            </li>
+                            <li>
+                                <span class="trend-label">1w:</span>
+                                <span class="trend-value" id="eth-week-trend">Loading....</span>
+                            </li>
+                            <li>
+                                <span class="trend-label">All:</span>
+                                <span class="trend-value" id="eth-all-trend">Loading....</span>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="trends-section">
+                    <div class="card">
+                        <h2>Wallet Value Trends</h2>
+                        <ul class="trends-list">
+                            <li>
+                                <span class="trend-label">1hr:</span>
+                                <span class="trend-value" id="wallet-hour-trend">Loading....</span>
+                            </li>
+                            <li>
+                                <span class="trend-label">1d:</span>
+                                <span class="trend-value" id="wallet-day-trend">Loading....</span>
+                            </li>
+                            <li>
+                                <span class="trend-label">1w:</span>
+                                <span class="trend-value" id="wallet-week-trend">Loading....</span>
+                            </li>
+                            <li>
+                                <span class="trend-label">All:</span>
+                                <span class="trend-value" id="wallet-all-trend">Loading....</span>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="transactions-section">
+                    <div class="card">
+                        <h2>Recent Transactions</h2>
+                        <ul class="transactions-list">
+                            {% for x in recent_txs %}
+                                <li class="transaction-item">{{ x }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const wallet = '{{ wallet_address | escapejs }}';
+    </script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+</body>
+</html>

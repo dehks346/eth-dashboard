@@ -61,21 +61,18 @@ def historical_data(request):
     timeframe = request.GET.get('timeframe', '1h')
     now = timezone.now()
 
-    # Set time range based on timeframe
     if timeframe == '1h':
         start_time = now - timedelta(hours=1)
     elif timeframe == '24h':
         start_time = now - timedelta(hours=24)
     elif timeframe == '7d':
         start_time = now - timedelta(days=7)
-    else:  # 'all'
-        start_time = now - timedelta(days=3650)  # Arbitrary large range
+    else:
+        start_time = now - timedelta(days=3650)
 
-    # Fetch data
     eth_prices = EthPrice.objects.filter(timestamp__gte=start_time).order_by('timestamp')
     wallet_values = WalletBalance.objects.filter(timestamp__gte=start_time).order_by('timestamp')
 
-    # Return Decimal values as strings to preserve precision
     response_data = {
         'eth_prices': [
             {'timestamp': p.timestamp.isoformat(), 'gbp_price': str(p.gbp_price)}

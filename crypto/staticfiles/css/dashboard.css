@@ -1,35 +1,28 @@
 :root {
-  /* Light theme variables - not used by default */
-  --light-background: #0a0e17;
-  --light-foreground: #e2e8f0;
-  --light-card-bg: #1a1f2e;
-  --light-card-border: rgba(51, 65, 85, 0.3);
-  --light-muted: #64748b;
-  --light-muted-light: #1e293b;
-  
-  /* Dark theme variables - used by default */
+  /* Shared theme variables */
   --background: #0a0e17;
   --foreground: #e2e8f0;
   --card-bg: #1a1f2e;
   --card-border: rgba(51, 65, 85, 0.3);
   --card-hover: #232b3e;
+  --muted: #64748b;
+  --muted-light: #1e293b;
   --primary: #6366f1;
   --primary-light: rgba(99, 102, 241, 0.15);
   --success: #10b981;
   --success-light: rgba(16, 185, 129, 0.15);
   --danger: #ef4444;
   --danger-light: rgba(239, 68, 68, 0.15);
-  --muted: #64748b;
-  --muted-light: #1e293b;
   --accent: #06b6d4;
   --accent-light: rgba(6, 182, 212, 0.15);
-  
-  /* Chart colors */
   --chart-grid: rgba(71, 85, 105, 0.2);
   --chart-eth: #6366f1;
-  --chart-eth-bg: rgba(99, 102, 241, 0.1);
   --chart-wallet: #10b981;
-  --chart-wallet-bg: rgba(16, 185, 129, 0.1);
+
+  /* Typography */
+  --font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-size-base: 16px;
+  --line-height: 1.5;
 }
 
 html.light {
@@ -49,41 +42,36 @@ html.light {
   padding: 0;
 }
 
-html,
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-    "Helvetica Neue", sans-serif;
-  background-color: var(--background);
+  font-family: var(--font-family);
+  background: var(--background);
   color: var(--foreground);
-  line-height: 1.4;
-  font-size: 16px;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   line-height: 1.25;
 }
 
 .dashboard {
-  max-width: 1600px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 0.75rem;
+  padding: 1rem;
+  width: 100%;
 }
 
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .logo {
@@ -94,14 +82,13 @@ h6 {
 
 .logo-icon {
   color: var(--primary);
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .logo h1 {
   font-size: 1.25rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
 }
 
 .wallet-info {
@@ -115,10 +102,11 @@ h6 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: var(--card-bg);
-  padding: 0.5rem 0.75rem;
+  background: var(--card-bg);
+  padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   border: 1px solid var(--card-border);
+  word-break: break-all;
 }
 
 .label {
@@ -129,37 +117,37 @@ h6 {
 .value {
   font-family: monospace;
   font-weight: 500;
+  word-break: break-all;
 }
 
 .overview-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .card {
-  background-color: var(--card-bg);
+  background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 0.5rem;
-  padding: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  padding: 1.25rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  width: 100%;
 }
 
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  background-color: var(--card-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: var(--card-hover);
 }
 
 .card h2 {
   font-size: 0.875rem;
   color: var(--muted);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 .balance-card, .value-card, .price-card {
@@ -172,24 +160,24 @@ h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 0.5rem;
   flex-shrink: 0;
 }
 
 .eth-icon {
-  background-color: var(--primary-light);
+  background: var(--primary-light);
   color: var(--primary);
 }
 
 .wallet-icon {
-  background-color: var(--success-light);
+  background: var(--success-light);
   color: var(--success);
 }
 
 .price-icon {
-  background-color: var(--accent-light);
+  background: var(--accent-light);
   color: var(--accent);
 }
 
@@ -200,7 +188,6 @@ h6 {
 .card-value {
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 0.125rem;
   font-family: monospace;
 }
 
@@ -212,40 +199,44 @@ h6 {
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.75rem;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1rem;
+  width: 100%;
 }
 
 .trends-section {
-  grid-column: span 1;
+  grid-column: span 3;
 }
 
 .main-chart {
-  grid-column: span 2;
+  grid-column: span 6;
 }
 
 .transactions-section {
-  grid-column: span 2;
+  grid-column: span 6;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
-  flex-wrap: wrap;
+  margin-bottom: 1rem;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .trends-list {
   list-style: none;
+  width: 100%;
+  overflow-x: auto;
 }
 
 .trends-list li {
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 0;
+  padding: 0.75rem 0;
   border-bottom: 1px solid var(--card-border);
+  word-break: break-all;
 }
 
 .trends-list li:last-child {
@@ -254,6 +245,7 @@ h6 {
 
 .trend-label {
   font-weight: 500;
+  flex-shrink: 0;
 }
 
 .trend-value {
@@ -261,68 +253,80 @@ h6 {
   font-weight: 500;
   display: flex;
   align-items: center;
+  word-break: break-all;
 }
 
 .trend-value::before {
   content: '';
-  display: inline-block;
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
-  margin-right: 0.375rem;
+  margin-right: 0.5rem;
 }
 
 .trend-value[style*="color: #10b981"]::before {
-  background-color: #10b981;
+  background: var(--success);
 }
 
 .trend-value[style*="color: #ef4444"]::before {
-  background-color: #ef4444;
+  background: var(--danger);
 }
 
 .chart-wrapper {
-  height: 350px;
   position: relative;
-  margin-top: 0.5rem;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.chart-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+  max-height: 300px;
 }
 
 .timeframe-selector {
   display: flex;
-  gap: 0.25rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .timeframe-selector button {
-  background-color: var(--muted-light);
+  background: var(--muted-light);
   border: none;
   border-radius: 0.375rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem 0.75rem;
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--muted);
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .timeframe-selector button:hover {
-  background-color: var(--primary-light);
+  background: var(--primary-light);
   color: var(--primary);
 }
 
 .timeframe-selector button.active {
-  background-color: var(--primary);
-  color: white;
+  background: var(--primary);
+  color: #ffffff;
 }
 
 .transactions-list {
   list-style: none;
+  width: 100%;
+  overflow-x: auto;
 }
 
 .transaction-item {
-  padding: 0.5rem 0;
+  padding: 0.75rem 0;
   border-bottom: 1px solid var(--card-border);
   font-size: 0.875rem;
   display: flex;
   align-items: center;
+  word-break: break-all;
 }
 
 .transaction-item:last-child {
@@ -331,53 +335,139 @@ h6 {
 
 .transaction-item::before {
   content: '→';
-  display: inline-block;
   margin-right: 0.5rem;
   color: var(--muted);
+  flex-shrink: 0;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1200px) {
+footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: var(--card-bg);
+  margin-top: 2rem;
+  width: 100%;
+  border-top: 1px solid var(--card-border);
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer h2 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+footer h3 {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--foreground);
+}
+
+footer a {
+  text-decoration: none;
+  color: var(--primary);
+  transition: color 0.2s ease;
+}
+
+footer a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 1280px) {
   .dashboard-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
-  
-  .main-chart {
-    grid-column: span 2;
-  }
-  
   .trends-section {
-    grid-column: span 1;
+    grid-column: span 6;
   }
-  
+  .main-chart {
+    grid-column: span 6;
+  }
   .transactions-section {
-    grid-column: span 2;
+    grid-column: span 6;
   }
 }
 
 @media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  .trends-section, .main-chart, .transactions-section {
+    grid-column: span 1;
+  }
   .dashboard-header {
     flex-direction: column;
     align-items: flex-start;
   }
-  
   .chart-wrapper {
     height: 250px;
   }
-}
-
-@media (max-width: 640px) {
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .main-chart,
-  .trends-section,
-  .transactions-section {
-    grid-column: span 1;
-  }
-  
   .overview-cards {
     grid-template-columns: 1fr;
   }
+  .card-value {
+    font-size: 1.25rem;
+  }
+  .card-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 0.5rem;
+  }
+  .card {
+    padding: 1rem;
+  }
+  .chart-wrapper {
+    height: 200px;
+  }
+  .card-value {
+    font-size: 1.125rem;
+  }
+  .card-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  .timeframe-selector button {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.7rem;
+  }
+  .trends-list li, .transaction-item {
+    font-size: 0.8rem;
+  }
+  footer {
+    padding: 1.5rem 0.75rem;
+  }
+  footer h2 {
+    font-size: 0.875rem;
+  }
+  footer h3 {
+    font-size: 0.75rem;
+  }
+}
+
+.card-icon.eth-icon::before {
+  content: "🪙";
+  font-size: 24px;
+  color: #fff;
+}
+
+.card-icon.wallet-icon::before {
+  content: "💼";
+  font-size: 24px;
+}
+
+.card-icon.price-icon::before {
+  content: "💰";
+  font-size: 24px;
 }

@@ -77,12 +77,6 @@ def get_eth_price():
         return None
 
 def calculate_change(reference_time, model, field, balance=None):
-    """
-    Calculate percentage and price change for ETH price or wallet value.
-    - model: EthPrice or WalletBalance
-    - field: 'gbp_price' for EthPrice, 'eth_balance' for WalletBalance
-    - balance: ETH balance for wallet calculations (optional)
-    """
     try:
         latest = EthPrice.objects.latest('timestamp')
         old = model.objects.filter(timestamp__lte=reference_time).order_by('timestamp').first()
@@ -92,7 +86,7 @@ def calculate_change(reference_time, model, field, balance=None):
         if model == EthPrice:
             old_value = getattr(old, field)
             new_value = latest.gbp_price
-        else:  # WalletBalance
+        else:  
             if not balance:
                 balance = getattr(old, field)
             # Convert balance to Decimal to match gbp_price type
@@ -103,7 +97,7 @@ def calculate_change(reference_time, model, field, balance=None):
 
         percent_diff = ((new_value - old_value) / old_value) * 100
         price_diff = new_value - old_value
-        return {'percent': float(percent_diff), 'price': float(price_diff)}  # Convert to float for JSON serialization
+        return {'percent': float(percent_diff), 'price': float(price_diff)} 
     except (EthPrice.DoesNotExist, WalletBalance.DoesNotExist):
         return None
 
